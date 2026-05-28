@@ -1,14 +1,14 @@
 // Filter Bar Component
 // TODO: Implement advanced filtering controls
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TASK_TYPES, PRIORITIES, STATUSES } from '../api/mockApi';
 
-const FilterBar = ({ 
-  filters = {}, 
-  projects = [], 
-  users = [], 
-  onFiltersChange 
+const FilterBar = ({
+  filters = {},
+  projects = [],
+  users = [],
+  onFiltersChange
 }) => {
 
   // TODO: Implement filter functionality
@@ -24,6 +24,17 @@ const FilterBar = ({
   const [searchInput, setSearchInput] = React.useState(filters.search || '');
 
   // TODO: Implement debounced search with useEffect and setTimeout
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (searchInput !== (filters.search || '')) {
+        onFiltersChange({
+          ...filters,
+          search: searchInput
+        })
+      }
+    }, 300);
+    return (() => clearTimeout(timeoutId))
+  }, [filters, searchInput, onFiltersChange])
 
   const handleFilterChange = (filterKey, value) => {
     onFiltersChange({
@@ -44,6 +55,13 @@ const FilterBar = ({
   };
 
   // TODO: Count active filters for display
+  const activeFilterCount = [
+    filters.projectId,
+    filters.assigneeId,
+    filters.status && filters.status !== 'all' ? filters.status : null,
+    filters.taskType && filters.taskType !== 'all' ? filters.taskType : null,
+    filters.search
+  ].filter(Boolean).length;
 
   return (
     <div className="filter-bar">
@@ -125,13 +143,13 @@ const FilterBar = ({
 
         {/* Clear Filters */}
         <div className="filter-group">
-          <button 
+          <button
             onClick={clearAllFilters}
             className="clear-filters-btn"
-            // TODO: Disable when no active filters
+            disabled={!activeFilterCount}
           >
             Clear Filters
-            {/* TODO: Show count of active filters */}
+            {activeFilterCount > 0 ? `(${activeFilterCount})` : ''}
           </button>
         </div>
       </div>

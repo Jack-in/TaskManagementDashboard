@@ -14,28 +14,40 @@ import { TASK_TYPES, PRIORITIES, BUG_SEVERITIES } from '../api/mockApi';
 // 5. Auto-save functionality
 // 6. File attachment simulation
 
-const TaskForm = ({ 
-  isOpen, 
+const TaskForm = ({
+  isOpen,
   mode, // 'create' or 'edit'
   initialData = null,
   onSubmit,
   onClose,
   users = [],
   projects = [],
-  loading = false 
+  loading = false
 }) => {
-  
+
   // TODO: Setup React Hook Form with useForm hook
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+    mode: 'onChange',
+    defaultValues: initialData || {
+      title: '',
+      taskType: 'Bug',
+      priority: 'Medium',
+      projectId: '',
+      assigneeId: '',
+      description: '',
+      dueDate: ''
+    }
+  });
   // TODO: Configure defaultValues, validation mode, and form options
-  
+
   // TODO: Setup useFieldArray for subtasks and acceptance criteria
-  
+
   // TODO: Watch task type and project changes for dynamic behavior
-  
+
   // TODO: Filter available users based on selected project
-  
+
   // TODO: Implement auto-save functionality to localStorage
-  
+
   // TODO: Restore form data from localStorage on mount
 
   // TODO: Render dynamic fields based on task type
@@ -45,7 +57,7 @@ const TaskForm = ({
     // Feature: businessValue, acceptanceCriteria (array)
     // Enhancement: currentBehavior, proposedBehavior
     // Research: researchQuestions (array), expectedOutcomes
-    
+
     return <div>TODO: Implement dynamic fields</div>;
   };
 
@@ -61,7 +73,7 @@ const TaskForm = ({
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* TODO: Implement form fields */}
-          
+
           {/* Basic Fields */}
           <div className="form-group">
             <label>Title *</label>

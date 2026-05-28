@@ -21,4 +21,40 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 // 3. Loading states
 // 4. Error handling
 
-// TODO: Create action creators for form state, filters, loading, errors
+export const setFilters = (filters) => ({
+    type: SET_FILTERS,
+    payload: filters
+});
+
+export const clearFilters = () => ({
+    type: CLEAR_FILTERS
+});
+
+export const setSearch = (search) => ({
+    type: SET_SEARCH,
+    payload: search
+});
+
+export const openTaskForm = (mode = 'create', taskId = null) => ({
+    type: OPEN_TASK_FORM,
+    payload: { mode, taskId }
+});
+
+export const closeTaskForm = () => ({
+    type: CLOSE_TASK_FORM
+});
+
+export const setLoading = (key, value) => ({
+    type: SET_LOADING,
+    payload: { key, value }
+});
+
+export const setError = (key, error) => ({
+    type: SET_ERROR,
+    payload: { key, error }
+});
+
+export const clearError = (key) => ({
+    type: CLEAR_ERROR,
+    payload: key
+});

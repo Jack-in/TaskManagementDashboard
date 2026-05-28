@@ -4,15 +4,10 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-
-// TODO: Import your reducers here
-// import tasksReducer from './reducers/tasksReducer';
-// import uiReducer from './reducers/uiReducer';
-// import usersReducer from './reducers/usersReducer';
-// import projectsReducer from './reducers/projectsReducer';
-
-// TODO: Import your root saga
-// import rootSaga from './sagas/rootSaga';
+import { taskReducer } from './reducers/taskReducer';
+import { usersReducer, projectsReducer } from './reducers/entityReducers';
+import uiReducer from './reducers/uiReducer';
+import rootSaga from './sagas/rootSaga';
 
 // TODO: Implement the store configuration
 // Requirements:
@@ -23,8 +18,12 @@ import { createLogger } from 'redux-logger';
 // 5. Enable Redux DevTools
 
 const rootReducer = combineReducers({
-  // TODO: Add your reducers here
-  // TODO: Use normalized state structure (entities, ui)
+  entities: combineReducers({
+    tasks: taskReducer,
+    users: usersReducer,
+    projects: projectsReducer,
+  }),
+  ui: uiReducer,
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -44,12 +43,12 @@ const logger = createLogger({
 });
 
 // Configure Redux DevTools Extension
-const composeEnhancers = 
+const composeEnhancers =
   typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        trace: true,
-        traceLimit: 25
-      })
+      trace: true,
+      traceLimit: 25
+    })
     : compose;
 
 // TODO: Create and configure store
@@ -64,7 +63,7 @@ const store = createStore(
 );
 
 // TODO: Run root saga
-// sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export default store;
 
